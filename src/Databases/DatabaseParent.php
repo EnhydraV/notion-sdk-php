@@ -10,31 +10,28 @@ namespace Notion\Databases;
  *
  * @psalm-immutable
  */
-class DatabaseParent
-{
+class DatabaseParent {
     private function __construct(
         public readonly DatabaseParentType $type,
         public readonly string|null $id,
     ) {
     }
 
-    public static function page(string $pageId): self
-    {
+    public static function page(string $pageId): self {
         return new self(DatabaseParentType::Page, $pageId);
     }
 
-    public static function workspace(): self
-    {
+    public static function workspace(): self {
         return new self(DatabaseParentType::Workspace, null);
     }
+    
 
     /**
      * @param DatabaseParentJson $array
      *
      * @internal
      */
-    public static function fromArray(array $array): self
-    {
+    public static function fromArray(array $array): self {
         $type = DatabaseParentType::from($array["type"]);
 
         $id = $array["page_id"] ?? null;
@@ -42,8 +39,7 @@ class DatabaseParent
         return new self($type, $id);
     }
 
-    public function toArray(): array
-    {
+    public function toArray(): array {
         $array = [];
 
         if ($this->isPage()) {
@@ -56,13 +52,11 @@ class DatabaseParent
         return $array;
     }
 
-    public function isPage(): bool
-    {
+    public function isPage(): bool {
         return $this->type === DatabaseParentType::Page;
     }
 
-    public function isWorkspace(): bool
-    {
-        return $this->type === DatabaseParentType::Workspace;
+    public function isWorkspace(): bool {
+        return $this->type === DatabaseParentType::Workspace || $this->type === DatabaseParentType::Block;
     }
 }
