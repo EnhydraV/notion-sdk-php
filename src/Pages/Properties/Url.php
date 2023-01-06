@@ -15,11 +15,11 @@ class Url implements PropertyInterface
 {
     private function __construct(
         private readonly PropertyMetadata $metadata,
-        public readonly string $url
+        public readonly string|null $url
     ) {
     }
 
-    public static function create(string $url): self
+    public static function create(string|null $url): self
     {
         $metadata = PropertyMetadata::create("", PropertyType::Url);
 
@@ -51,7 +51,7 @@ class Url implements PropertyInterface
         return $this->metadata;
     }
 
-    public function changeUrl(string $url): self
+    public function changeUrl(string|null $url): self
     {
         return new self($this->metadata, $url);
     }
